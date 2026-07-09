@@ -1,0 +1,10 @@
+{
+  "showViewHeader": false,
+  "showRibbon": true,
+  "enabledCssSnippets": [
+    "command-center"
+  ],
+  "cssTheme": "Minimal",
+  "accentColor": "",
+  "theme": "obsidian"
+}

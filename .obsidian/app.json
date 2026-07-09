@@ -1,0 +1,10 @@
+{
+  "promptDelete": false,
+  "showInlineTitle": true,
+  "userIgnoreFilters": [
+    "CLAUDE.md"
+  ],
+  "newFileLocation": "folder",
+  "newFileFolderPath": "Data/Inbox",
+  "attachmentFolderPath": "Data/Inbox"
+}

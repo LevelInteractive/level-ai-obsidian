@@ -1,0 +1,157 @@
+/* ── Level Agency brand tokens ── */
+:root {
+  --level-black:  #000000;
+  --level-white:  #FFFFFF;
+  --level-gray:   #D9DEF0;
+  --level-blue:   #86D5F4;
+  --level-pink:   #FD6EF8;
+  --level-green:  #8EE34D;
+  --level-orange: #FFAA53;
+}
+
+/* ── Button Card (generic) ── */
+.canvas-node:has(.btn) .canvas-node-container {
+  background: var(--level-black);
+  border: 1px solid var(--level-blue);
+  border-radius: 10px;
+  box-shadow: 0 4px 0 rgba(134,213,244,0.4);
+  cursor: pointer;
+  transition: box-shadow 0.1s, transform 0.1s;
+}
+
+.canvas-node:has(.btn):hover .canvas-node-container {
+  box-shadow: 0 6px 0 rgba(134,213,244,0.5), 0 0 20px rgba(134,213,244,0.2);
+  transform: translateY(-1px);
+}
+
+.canvas-node:has(.btn):active .canvas-node-container {
+  box-shadow: 0 1px 0 rgba(134,213,244,0.4);
+  transform: translateY(3px);
+}
+
+/* Hide h1 — label lives on the button itself */
+.canvas-node:has(.btn) h1 {
+  display: none;
+}
+
+/* Full-width pill button */
+.canvas-node:has(.btn) .mb-button-container {
+  display: flex;
+  width: 100%;
+}
+
+.canvas-node:has(.btn) .mb-button {
+  background: rgba(134,213,244,0.12);
+  border: 1px solid rgba(134,213,244,0.35);
+  border-radius: 999px;
+  color: var(--level-blue);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: 100%;
+  justify-content: center;
+}
+
+.canvas-node:has(.btn) .mb-button-label {
+  display: block;
+}
+
+.canvas-node:has(.btn) .mb-button:hover {
+  background: rgba(134,213,244,0.25);
+}
+
+/* ── Markdown link styled as pill button ── */
+.canvas-node:has(.btn) a.internal-link,
+.canvas-node:has(.btn) a.external-link {
+  display: block;
+  background: rgba(134,213,244,0.12);
+  border: 1px solid rgba(134,213,244,0.35);
+  border-radius: 999px;
+  color: var(--level-blue) !important;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.canvas-node:has(.btn) a.internal-link:hover,
+.canvas-node:has(.btn) a.external-link:hover {
+  background: rgba(134,213,244,0.25);
+  color: var(--level-blue) !important;
+  text-decoration: none;
+}
+
+/* ── Color variants — one per Level accent ── */
+
+/* Blue (default) — already handled by .btn above */
+
+/* Pink variant */
+.canvas-node:has(.btn-pink) .canvas-node-container {
+  background: var(--level-black);
+  border-color: var(--level-pink);
+  box-shadow: 0 4px 0 rgba(253,110,248,0.4);
+}
+.canvas-node:has(.btn-pink):hover .canvas-node-container {
+  box-shadow: 0 6px 0 rgba(253,110,248,0.5), 0 0 20px rgba(253,110,248,0.2);
+  transform: translateY(-1px);
+}
+.canvas-node:has(.btn-pink):active .canvas-node-container {
+  box-shadow: 0 1px 0 rgba(253,110,248,0.4);
+  transform: translateY(3px);
+}
+.canvas-node:has(.btn-pink) .mb-button {
+  background: rgba(253,110,248,0.12);
+  border-color: rgba(253,110,248,0.35);
+  color: var(--level-pink);
+}
+.canvas-node:has(.btn-pink) .mb-button:hover { background: rgba(253,110,248,0.25); }
+
+/* Green variant */
+.canvas-node:has(.btn-green) .canvas-node-container {
+  background: var(--level-black);
+  border-color: var(--level-green);
+  box-shadow: 0 4px 0 rgba(142,227,77,0.4);
+}
+.canvas-node:has(.btn-green):hover .canvas-node-container {
+  box-shadow: 0 6px 0 rgba(142,227,77,0.5), 0 0 20px rgba(142,227,77,0.2);
+  transform: translateY(-1px);
+}
+.canvas-node:has(.btn-green):active .canvas-node-container {
+  box-shadow: 0 1px 0 rgba(142,227,77,0.4);
+  transform: translateY(3px);
+}
+.canvas-node:has(.btn-green) .mb-button {
+  background: rgba(142,227,77,0.12);
+  border-color: rgba(142,227,77,0.35);
+  color: var(--level-green);
+}
+.canvas-node:has(.btn-green) .mb-button:hover { background: rgba(142,227,77,0.25); }
+
+/* Orange variant */
+.canvas-node:has(.btn-orange) .canvas-node-container {
+  background: var(--level-black);
+  border-color: var(--level-orange);
+  box-shadow: 0 4px 0 rgba(255,170,83,0.4);
+}
+.canvas-node:has(.btn-orange):hover .canvas-node-container {
+  box-shadow: 0 6px 0 rgba(255,170,83,0.5), 0 0 20px rgba(255,170,83,0.2);
+  transform: translateY(-1px);
+}
+.canvas-node:has(.btn-orange):active .canvas-node-container {
+  box-shadow: 0 1px 0 rgba(255,170,83,0.4);
+  transform: translateY(3px);
+}
+.canvas-node:has(.btn-orange) .mb-button {
+  background: rgba(255,170,83,0.12);
+  border-color: rgba(255,170,83,0.35);
+  color: var(--level-orange);
+}
+.canvas-node:has(.btn-orange) .mb-button:hover { background: rgba(255,170,83,0.25); }

@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -File \".claude\\export-session-to-obsidian.ps1\"",
+            "shell": "powershell",
+            "timeout": 15,
+            "statusMessage": "Saving session to Obsidian...",
+            "os": ["windows"]
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/export-session-to-obsidian.sh",
+            "shell": "bash",
+            "timeout": 15,
+            "statusMessage": "Saving session to Obsidian...",
+            "os": ["mac", "linux"]
+          }
+        ]
+      }
+    ]
+  }
+}

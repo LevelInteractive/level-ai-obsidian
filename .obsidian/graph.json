@@ -1,0 +1,156 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": true,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:Level Knowledge/clients",
+      "color": {
+        "a": 1,
+        "rgb": 5083084
+      }
+    },
+    {
+      "query": "path:Level Knowledge/team",
+      "color": {
+        "a": 1,
+        "rgb": 6071900
+      }
+    },
+    {
+      "query": "path:Level Knowledge/decisions",
+      "color": {
+        "a": 1,
+        "rgb": 10116287
+      }
+    },
+    {
+      "query": "path:Level Knowledge/tools",
+      "color": {
+        "a": 1,
+        "rgb": 6071974
+      }
+    },
+    {
+      "query": "path:Level Knowledge/analytics",
+      "color": {
+        "a": 1,
+        "rgb": 12869754
+      }
+    },
+    {
+      "query": "path:Level Knowledge/processes",
+      "color": {
+        "a": 1,
+        "rgb": 12886112
+      }
+    },
+    {
+      "query": "path:Level Knowledge/organization",
+      "color": {
+        "a": 1,
+        "rgb": 13400653
+      }
+    },
+    {
+      "query": "tag:#signal",
+      "color": {
+        "a": 1,
+        "rgb": 13389260
+      }
+    },
+    {
+      "query": "tag:#data-quality",
+      "color": {
+        "a": 1,
+        "rgb": 5098700
+      }
+    },
+    {
+      "query": "tag:#gclid",
+      "color": {
+        "a": 1,
+        "rgb": 8047693
+      }
+    },
+    {
+      "query": "tag:#edu-migration",
+      "color": {
+        "a": 1,
+        "rgb": 5069516
+      }
+    },
+    {
+      "query": "tag:#sstm",
+      "color": {
+        "a": 1,
+        "rgb": 13389226
+      }
+    },
+    {
+      "query": "tag:#csu",
+      "color": {
+        "a": 1,
+        "rgb": 5098650
+      }
+    },
+    {
+      "query": "tag:#nbu",
+      "color": {
+        "a": 1,
+        "rgb": 13945933
+      }
+    },
+    {
+      "query": "tag:#q3-2026",
+      "color": {
+        "a": 1,
+        "rgb": 5093580
+      }
+    },
+    {
+      "query": "tag:#launch-target",
+      "color": {
+        "a": 1,
+        "rgb": 8015308
+      }
+    },
+    {
+      "query": "tag:#at-risk",
+      "color": {
+        "a": 1,
+        "rgb": 14703708
+      }
+    },
+    {
+      "query": "tag:#watch",
+      "color": {
+        "a": 1,
+        "rgb": 14716960
+      }
+    },
+    {
+      "query": "tag:#deprecated",
+      "color": {
+        "a": 1,
+        "rgb": 8947848
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": false,
+  "textFadeMultiplier": -3,
+  "nodeSizeMultiplier": 1.33776041666667,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": false,
+  "centerStrength": 0.190104166666667,
+  "repelStrength": 10.5729166666667,
+  "linkStrength": 0.309895833333333,
+  "linkDistance": 254,
+  "scale": 0.021528718442429935,
+  "close": true
+}
