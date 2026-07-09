@@ -24,12 +24,12 @@ Colors assigned to each domain in the Obsidian graph view. When a new domain is 
 
 | Color | Hex | Domain |
 |---|---|---|
-| 🔵 | #3498DB | clients |
-| 🟢 | #2ECC71 | processes |
-| 🟠 | #E67E22 | tools |
-| 🟣 | #9B59B6 | analytics |
-| 🩵 | #1ABC9C | team |
-| 🔴 | #E74C3C | decisions |
+| 🔵 | #4d8fcc | clients |
+| 🟢 | #5ca65c | team |
+| 🟣 | #9a5cbf | decisions |
+| 🩵 | #5ca6a6 | tools |
+| 🔴 | #c4607a | analytics |
+| 🟡 | #c4a060 | processes |
 | 🟠 | #cc7a4d | organization |
 
 ---

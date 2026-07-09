@@ -50,20 +50,29 @@ Calculate the number of days between `last_full_rerun` and today.
 
 ## Step 2 — Discover new raw files
 
-Run this PowerShell command to list raw files modified since the cutoff:
+Run this via the Bash tool to list raw files modified since the cutoff. It works identically on Windows (Git Bash), macOS, and Linux — no PowerShell required.
 
-```powershell
-# Replace VAULT_ROOT with the current working directory and CUTOFF with the date string (or use [datetime]::MinValue if null)
-$cutoff = [datetime]"CUTOFF"
-Get-ChildItem "VAULT_ROOT\Data" -Recurse -File |
-  Where-Object { $_.LastWriteTime -ge $cutoff -and $_.Extension -eq ".md" } |
-  Select-Object FullName, LastWriteTime |
-  Sort-Object LastWriteTime
+If `CUTOFF` (the `last_updated` value from Step 1) is a real date:
+
+```bash
+# Replace VAULT_ROOT with the current working directory and CUTOFF with the date string (YYYY-MM-DD)
+touch -t "$(echo CUTOFF | tr -d '-')0000" /tmp/wiki-update-cutoff
+find "VAULT_ROOT/Data" -type f -name "*.md" -newer /tmp/wiki-update-cutoff
 ```
+
+If `CUTOFF` is null or missing (read all files):
+
+```bash
+find "VAULT_ROOT/Data" -type f -name "*.md"
+```
+
+Order doesn't matter — each file is triaged independently in Step 3.
 
 If no files are found, tell the user the wiki is already up to date and stop.
 
 ## Step 3 — Read and triage raw files
+
+This triage is done directly, inline — do not invoke the `wiki-triage` skill here. `wiki-triage` is unrelated: it turns `wiki-lint`'s active-issues list into a prioritized fix plan and only runs after `/ob-wiki-lint`.
 
 Read each file returned in Step 2. For each file, identify which wiki domains it touches.
 A single raw file can inform multiple domains. Use the table below as a guide:
@@ -138,7 +147,7 @@ Inside that folder, maintain these focused pages. **Only create a page when ther
 
 You may also create additional pages when a topic has enough depth to warrant it — e.g. `integrations.md`, `data.md`, `roadmap.md`. Use judgment: a page should have at least 3–5 substantive bullet points to justify existence.
 
-**Triage logic — when you find something about a client, route it to:**
+**Triage logic — when you find something about a client, route it to:** (this is inline page-routing logic, not the `wiki-triage` skill)
 
 | Signal | Page |
 |---|---|
@@ -900,11 +909,11 @@ Key rules (see `.claude/tagging.md` for full detail):
 - Theme tags apply when the page is substantively about that theme
 - Temporal tags flag time-sensitive items with near-term deadlines
 
-**Auto-creating new theme tags:** During triage (Step 3), track recurring concepts not covered by any existing vocabulary tag. If a concept appears substantively in 3+ distinct source files in the current run, add it to the controlled vocabulary in `.claude/tagging.md` (append to the Themes row), apply it to relevant pages, and report it in the Step 8 summary. See `.claude/tagging.md` for the full auto-creation rules and category restrictions.
+**Auto-creating new theme tags:** During Step 3's raw-file triage (done inline, not via the `wiki-triage` skill), track recurring concepts not covered by any existing vocabulary tag. If a concept appears substantively in 3+ distinct source files in the current run, add it to the controlled vocabulary in `.claude/tagging.md` (append to the Themes row), apply it to relevant pages, and report it in the Step 8 summary. See `.claude/tagging.md` for the full auto-creation rules and category restrictions.
 
 ## Rules
 
-- **Never append** to wiki pages — always rewrite the whole file using the template.
+- **Prefer incremental edits over full rewrites** — since the existing page is already read in full before writing (see Step 4), use targeted edits for just what changed (frontmatter fields, the specific section, `## Attachments`, `## References`, the confidence footnote) rather than regenerating the whole file. Never just append new content to the end without merging it into the right section. Full rewrite is still appropriate for a brand-new page, or when restructuring a page (moving/splitting/merging, per the Restructuring section).
 - **Never delete** a section that has content, even if the new raw sources don't mention it.
 - **Never modify `## Notes`** — this section is reserved for the user's manual edits. Read it for context but do not rewrite, merge into, or delete anything in it. If the section doesn't exist on an existing page, add it as an empty section before `## References`.
 - **`## Attachments` is managed automatically** — re-scan `Data/Assets/attachments/` on every update and refresh the section with current matches. If no matches exist and the section is empty, remove it. Never remove an attachment the user added manually — if it doesn't match the auto-scan, leave it and add auto-matched ones alongside it.
