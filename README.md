@@ -14,6 +14,21 @@ The vault is organized as three layers, based on the Karpathy three-layer model:
 
 Claude is the process that reads the inputs, maintains the synthesis, and produces deliverables from it. You interact with it through **skills** (slash commands) — see [`HELP.md`](HELP.md) for the full list, or just ask in plain English (e.g. "update the wiki," "give me a win report").
 
+## Workflow
+
+The vault runs on four workflows:
+
+1. **Ingest** (`/ob-wiki-update`) — sorts the inbox, finds every `Data/` file changed since the last run, triages it to the right wiki domain, and rewrites the affected pages in place: merging new learnings into what's already there rather than resetting the page. Roughly every 7 days it offers a full rerun to catch cross-file connections an incremental pass would miss.
+2. **Query** — just ask a question in plain English. Claude reads `Level Knowledge/index.md`, answers from high-confidence pages directly, and only drops into raw `Data/` sources when a page is low-confidence, the question needs more precision than the wiki captures, or two pages contradict each other.
+3. **Lint** (`/ob-wiki-contradictions`) — audits the wiki for contradictions, stale claims, orphan pages, and missing concepts (via `ob-wiki-lint` internally, so you don't need to run that separately), then produces a prioritized, numbered fix plan you can act on item by item. Run `/ob-wiki-lint` on its own if you just want the report, not the fix workflow.
+4. **Graph sync** (`/wiki-graph-sync`) — keeps Obsidian's graph view colors in sync with the wiki's domain structure. Run it after adding a new domain or moving pages; nothing else triggers it automatically.
+
+Day to day, this looks like:
+1. Drop any new raw file into `Data/Inbox/` (some capture happens on its own — session transcripts export automatically, and Slack/Zoom/Asana skills pull on demand and file straight into the right subfolder — but anything else lands in the inbox).
+2. Run **Ingest** periodically to sort the inbox and fold new material into the wiki.
+3. **Query** whenever you need an answer.
+4. Run **Lint** occasionally to keep the wiki healthy.
+
 ## Setup
 
 **Prerequisites:**
@@ -27,13 +42,13 @@ Claude is the process that reads the inputs, maintains the synthesis, and produc
 3. Open the same folder in Claude Code (`claude` in the folder, or open it from the desktop app).
 4. Personalize [`.claude/CLAUDE.md`](.claude/CLAUDE.md) — it's written generically ("the user") on purpose; adapt wording, domains, and tagging vocabulary (`.claude/tagging.md`) to your own context.
 5. Set up the `obsidian` MCP server (referenced in `.claude/settings.local.json`) if you want Claude to read/write notes directly rather than through shell commands.
-6. Drop your first raw files into `Data/` (or `Data/Inbox/` if unsorted), then run `/ob-wiki-update` to do the first synthesis pass.
+6. Drop your first raw files into `Data/Inbox/`, then run `/ob-wiki-update` to sort them and do the first synthesis pass.
 
-Once seeded, a normal rhythm looks like: capture happens automatically (session transcripts export on their own; Slack/Zoom/Asana skills pull on demand) → run `/ob-wiki-update` periodically to fold new raw material into the wiki → ask questions or run report skills (`/ob-insight`, `/ob-praise-me`, `/ob-todo`, etc.) against the synthesized wiki.
+See [Workflow](#workflow) above for the ongoing rhythm once the vault is seeded.
 
 ## What's in here
 
-- **`Data/`** — raw sources, organized by type (`Meetings/`, `Work/`, `Claude/`, `Daily/`, `Inbox/`, `Knowledge/`, `Resources/`, `Personal/`, `Assets/`)
+- **`Data/`** — raw sources, organized by type (`Meetings/`, `Work/`, `Claude/`, `Daily/`, `Inbox/`, `Knowledge/`, `Resources/`, `Personal/`, `Assets/`). Drop any new raw file into `Data/Inbox/` — the `ob-inbox` agent sorts it into the right subfolder (and vision-extracts images) the next time `/ob-wiki-update` runs, or on demand if you ask Claude to "sort the inbox."
 - **`Level Knowledge/`** — the wiki: `index.md` is the master catalog, `log.md` is an append-only operation log, and each domain (`clients/`, `processes/`, `tools/`, `analytics/`, `team/`, `decisions/`, plus any custom domains) gets its own folder
 - **`Level Playbook/`** — generated reports: `insights/`, `wiki-lint/`, `planning/`, `Hub/` (latest-report shortcuts)
 - **`.claude/`** — skills, agents, commands, tagging vocabulary, and hooks that drive the automation
