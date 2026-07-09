@@ -355,11 +355,17 @@ Concepts referenced by wiki pages that have no page yet. Click any link to creat
 - If there are no missing concept pages, write the file with a single line: `*No stubs needed as of <TODAY>.*` under the header
 - Do not include links whose names match `YYYY-MM-DD` or `YYYY-MM` patterns (those are source files, not wiki stubs)
 
-## Step 8 — Write the active-issues file
+## Step 8 — Update the active-issues file
 
-Write `.claude/linter.md` — a condensed, flat list of every actionable issue found this run, at a **fixed path** (not date-stamped) so downstream skills like `ob-wiki-contradictions` can always find it without tracking a dated report path.
+Maintain `.claude/linter.md` — a condensed, flat list of every actionable issue currently open, at a **fixed path** (not date-stamped) so downstream skills like `ob-wiki-contradictions` can always find it without tracking a dated report path.
 
-**If `.claude/linter.md` already exists from a previous run, its contents are stale.** Overwrite it wholesale with this run's findings — do not append to it, merge with it, or carry over old entries. Every run's findings are already a full fresh audit of current wiki state, so this run's list is authoritative on its own.
+**Update it, don't wipe it.** If `.claude/linter.md` already exists, read it first and match its bullets against this run's freshly found issues by identity (category + page path + entity/description — the same fields already in the bullet text; exact text match, not fuzzy):
+
+- **Still open** (matched in both) — keep it, refresh the bullet's fields (confidence/dates/etc. may have changed this run), but carry forward its original `open since` date.
+- **New** (found this run, no match in the old file) — add it with `open since: <TODAY>`.
+- **Resolved** (in the old file, no match in this run's findings) — drop it. Don't carry it forward.
+
+This still writes the whole file each run (Markdown can't be patched in place) — the difference is the *content* is a merge against the prior list, not a stateless snapshot. If the file doesn't exist yet, every issue found is new — `open since: <TODAY>` for all of them.
 
 Format:
 
@@ -374,14 +380,14 @@ issues_found: N
 
 *Last run: <TODAY> | Issues: N*
 
-- [P1-critical] CONTRADICTION — path/to/page.md (confidence: high, updated: 2026-06-28): "verbatim claim" vs. path/to/other.md (confidence: medium, updated: 2026-06-10): "verbatim claim"
-- [P1-critical] CONFLICT — path/to/page.md — "[CONFLICT] verbatim text"
-- [P2-warning] CONFIDENCE-DECAY — path/to/page.md — claims `confidence: high` but most recent source is N days old (threshold: X)
-- [P2-warning] STALE — path/to/page.md — reason (last updated: DATE, N days behind); newer sources: [[source name]]
-- [P3-info] ARCHIVED-REVIVAL — path/to/page.md — archived claim "text" (last seen: DATE); source [[source name]] updated DATE
-- [—] ORPHAN — path/to/page.md
-- [—] MISSING-PAGE — concept-name — referenced from page1.md, page2.md
-- [—] FRONTMATTER — path/to/page.md — missing: title, confidence
+- [P1-critical] CONTRADICTION — path/to/page.md (confidence: high, updated: 2026-06-28): "verbatim claim" vs. path/to/other.md (confidence: medium, updated: 2026-06-10): "verbatim claim" *(open since: 2026-06-29)*
+- [P1-critical] CONFLICT — path/to/page.md — "[CONFLICT] verbatim text" *(open since: 2026-07-01)*
+- [P2-warning] CONFIDENCE-DECAY — path/to/page.md — claims `confidence: high` but most recent source is N days old (threshold: X) *(open since: 2026-06-15)*
+- [P2-warning] STALE — path/to/page.md — reason (last updated: DATE, N days behind); newer sources: [[source name]] *(open since: 2026-07-01)*
+- [P3-info] ARCHIVED-REVIVAL — path/to/page.md — archived claim "text" (last seen: DATE); source [[source name]] updated DATE *(open since: 2026-07-01)*
+- [—] ORPHAN — path/to/page.md *(open since: 2026-06-20)*
+- [—] MISSING-PAGE — concept-name — referenced from page1.md, page2.md *(open since: 2026-06-20)*
+- [—] FRONTMATTER — path/to/page.md — missing: title, confidence *(open since: 2026-07-01)*
 
 (If none: *No active issues.*)
 ```

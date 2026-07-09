@@ -70,42 +70,6 @@ limit: 20
 include_context: false
 ```
 
-**Search F — #sd-signal-operations channel:**
-```
-query: "in:<#C0A6R2DU5RV> on:YYYY-MM-DD"
-sort: timestamp
-sort_dir: asc
-limit: 20
-include_context: false
-```
-
-**Search G — #ai channel:**
-```
-query: "in:<#C05EGLGUY3Y> on:YYYY-MM-DD"
-sort: timestamp
-sort_dir: asc
-limit: 20
-include_context: false
-```
-
-**Search H — #del-crm-data-team-internal channel:**
-```
-query: "in:<#C0356R91Q1E> on:YYYY-MM-DD"
-sort: timestamp
-sort_dir: asc
-limit: 20
-include_context: false
-```
-
-**Search I — #data-strength-program-ops channel:**
-```
-query: "in:<#C0AS3UNFXHB> on:YYYY-MM-DD"
-sort: timestamp
-sort_dir: asc
-limit: 20
-include_context: false
-```
-
 Replace `YYYY-MM-DD` with today's actual date from `currentDate`.
 
 ## Step 2 — Synthesize the summary

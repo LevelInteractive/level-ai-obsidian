@@ -7,7 +7,7 @@ Quick reference for all automation built into this vault. Run skills as slash co
 ## Skills (slash commands)
 
 ### `/ob-wiki-update`
-**What it does:** Ingests new raw notes from `Data/` since the last update and synthesizes learnings into the `Level Knowledge/` wiki. Rewrites wiki pages in place — never appends. Also sorts the inbox and updates this help file. Does **not** check for contradictions or sync graph colors — run `/ob-wiki-contradictions` and `/wiki-graph-sync` separately for those.
+**What it does:** Ingests new raw notes from `Data/` since the last update and synthesizes learnings into the `Level Knowledge/` wiki. Updates pages via targeted edits to just what changed — never blind-appends; full rewrites are reserved for brand-new pages or restructuring. Also sorts the inbox and updates this help file. Does **not** check for contradictions or sync graph colors — run `/ob-wiki-contradictions` and `/wiki-graph-sync` separately for those.
 
 **When to use:** After new meetings, Slack captures, or Claude sessions have been saved to `Data/`. Run daily or whenever you want the wiki to reflect recent activity.
 

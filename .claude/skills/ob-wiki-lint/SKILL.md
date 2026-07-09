@@ -12,9 +12,10 @@ description: >
 
 Invoke the `wiki-lint` subagent to audit every page in `Level Knowledge/` and produce an
 actionable report in `Level Playbook/wiki-lint/wiki-lint-YYYY-MM-DD.md`, plus a condensed
-active-issues list at the fixed path `.claude/linter.md`. The agent overwrites `.claude/linter.md`
-wholesale on every run — it never carries stale issues over from a prior run. `ob-wiki-contradictions`
-reads `.claude/linter.md` directly for triage instead of tracking the dated report path.
+active-issues list at the fixed path `.claude/linter.md`. The agent updates `.claude/linter.md`
+each run — matching against the prior list to drop resolved issues, add newly found ones, and carry
+forward an `open since` date for issues that persist. `ob-wiki-contradictions` reads `.claude/linter.md`
+directly for triage instead of tracking the dated report path.
 
 **Performance:** the agent maintains a cache at `.claude/lint-cache.json`. Every 7th day (or if the
 cache is missing/corrupt) it runs a Full audit — re-reads and re-extracts every page. In between, it
