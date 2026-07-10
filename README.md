@@ -29,6 +29,26 @@ Day to day, this looks like:
 3. **Query** whenever you need an answer.
 4. Run **Lint** occasionally to keep the wiki healthy.
 
+## Scalability Warning
+
+This architecture works well at small to medium scale, but it eventually hits a practical limit.
+
+Around **300-500 documents**, the ingest flow starts becoming inefficient because the LLM must repeatedly read a large amount of source material to keep `Level Knowledge/` and `Level Knowledge/index.md` current. At that point, you should strongly consider switching to a **retrieval-augmented generation (RAG)** approach instead of relying on full-doc reprocessing.
+
+If you want something out of the box, [`qmd`](https://github.com/tobi/qmd) is a good place to start.
+
+This repo is actively evolving, and newer skills are being built to move beyond the current all-doc read/update pattern over time.
+
+### Migration Path (Full-Doc Ingest -> RAG)
+
+1. Keep your current folder model (`Data/`, `Level Knowledge/`, `Level Playbook/`) and treat `Data/` as the canonical source of truth.
+2. Add an indexing step that chunks and embeds only new or changed files, rather than re-reading the full corpus on every update.
+3. Store vectors and metadata in a retriever layer (for example, with `qmd`) and include source path + timestamp metadata for traceability.
+4. Update ingest skills so they do two things: write raw captures to `Data/` and trigger incremental indexing for touched files.
+5. Change query skills to retrieve top-k relevant chunks first, then synthesize answers from those chunks plus high-confidence wiki pages.
+6. Keep periodic wiki maintenance, but shift from "read everything and rewrite" to targeted updates driven by retrieval hits and explicit refresh jobs.
+7. Add quality checks: retrieval precision, stale-index detection, and source-citation validation before answers are finalized.
+
 ## Setup
 
 **Prerequisites:**
