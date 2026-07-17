@@ -19,6 +19,55 @@ ACTIVE_MD = CURRENT / "wiki-lint-active.md"
 PLAN_JSON = CURRENT / "wiki-lint-plan.json"
 PLAN_MD = CURRENT / "wiki-lint-plan.md"
 
+# Categories prepare_wiki_lint.py recomputes deterministically for every page on
+# every run (see its `issue(...)` call sites). Their absence from a run's output
+# means genuinely resolved, so they are never carried forward. Anything else
+# (e.g. CONTRADICTION, UNCERTAINTY) only gets re-evaluated for pages inside the
+# current bounded semantic scope, so a rotation that skips a page must not be
+# read as "issue resolved" — see carry_forward_semantic_findings().
+MECHANICAL_CATEGORIES = {
+    "FRONTMATTER", "REFERENCE", "MISSING-PAGE", "CONFLICT", "GRAPH-INVALID",
+    "ORPHAN", "GRAPH-STALE", "STALE", "CONFIDENCE-DECAY", "ARCHIVED-REVIVAL",
+    "SOURCE-STATE-INVALID", "QMD-STALE",
+}
+
+
+def page_hash(page: str | None) -> str | None:
+    if not page:
+        return None
+    path = VAULT_ROOT / page
+    return sha256(path) if path.is_file() else None
+
+
+def carry_forward_semantic_findings(
+    prior_findings: list[dict[str, Any]], unique: dict[str, dict[str, Any]]
+) -> None:
+    """Re-add still-open semantic findings a partial scope didn't re-emit.
+
+    A bounded semantic run only re-judges the pages in its own rotation, so a
+    finding's absence from `review.findings` means "not re-checked this run",
+    not "resolved" - unlike the mechanical categories, which are always
+    recomputed for the whole wiki. Carry a semantic finding forward as long as
+    its anchor page's content hasn't changed since it was last confirmed open;
+    a hash change means the page was edited and must clear the fresh scope
+    (prepare_wiki_lint.py's `changed-hash` reason guarantees it lands back in
+    `pages_to_read`) before the finding can be judged resolved or reconfirmed.
+    Findings written before this field existed have no baseline hash yet, so
+    they're carried forward once and stamped with a current hash for future
+    comparisons, rather than being dropped as if they had drifted.
+    """
+    for finding in prior_findings:
+        finding_id = finding.get("id")
+        if not finding_id or finding_id in unique:
+            continue
+        if finding.get("category") in MECHANICAL_CATEGORIES:
+            continue
+        if "page_sha256" in finding and page_hash(finding.get("page")) != finding.get("page_sha256"):
+            continue
+        carried = dict(finding)
+        carried["page_sha256"] = page_hash(finding.get("page"))
+        unique[finding_id] = carried
+
 
 def load(path: Path, fallback: Any) -> Any:
     try:
@@ -152,7 +201,10 @@ def main() -> int:
         finding.setdefault("detail", "no detail")
         finding["id"] = finding.get("id") or identity(finding)
         finding["open_since"] = prior_dates.get(finding["id"]) or date.today().isoformat()
+        if finding["category"] not in MECHANICAL_CATEGORIES:
+            finding["page_sha256"] = page_hash(finding.get("page"))
         unique[finding["id"]] = finding
+    carry_forward_semantic_findings(prior.get("findings", []), unique)
     merged = sorted(unique.values(), key=lambda item: (severity_rank(item["severity"]), item["category"], str(item.get("page"))))
     actions = [action_for(item, index) for index, item in enumerate(merged, 1)]
     run_dir = args.scope.parent

@@ -138,7 +138,7 @@ If you want the existing raw corpus synthesized into a new, empty wiki, do **not
 
 1. Put one or two non-sensitive test files in `Data/Inbox/`.
 2. Ask your agent to run `/ob-ingest`.
-3. Confirm the result reports: Inbox prepared, a source delta, successful packet/QMD status, validated wiki changes (or a justified no-op), refreshed retrieval, and accepted source state.
+3. Confirm the result reports: Inbox prepared, a source delta, successful packet status, validated wiki changes (or a justified no-op), dependency-graph refresh when pages changed, refreshed retrieval, and accepted source state.
 4. Inspect the changed wiki pages, especially `## References`, confidence, and untouched `## Notes`.
 5. Run `/wiki-graph-sync --dry-run` after structural changes; run the normal sync only if the result is correct.
 6. Run `/ob-wiki-lint` after a meaningful batch. Use `/ob-wiki-contradictions` only when you are ready to choose which proposed fixes to apply.

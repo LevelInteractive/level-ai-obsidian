@@ -138,7 +138,7 @@ Confidence lives in both YAML (for filtering) and as a `[^confidence]` footnote 
 4. **Review and write** — `/ob-wiki-update` reviews only the packet's sources and candidate pages, then writes only evidence-supported changes: merge new learnings, update `confidence`, `last_updated`, and `tags` in frontmatter, embed relevant images from `Data/Assets/`, add or refresh `## Attachments`, update `## References`, update the `[^confidence]` footnote; never modify `## Notes`.
 5. **Restructure if needed** — if new sources reveal a page is in the wrong domain or scope, move it and leave a redirect at the old path.
 6. **Validate** — check metadata, references, notes, confidence, and redaction. Update `index.md` and `log.md` only when approved changes require it.
-7. **Refresh and accept** — refresh QMD for approved wiki pages, then accept the exact source-state delta. Acceptance is always the last step.
+7. **Refresh derived state and accept** — when approved wiki pages changed, refresh the dependency graph and validate the refreshed metadata. Then refresh QMD for approved wiki pages and accept the exact source-state delta. A graph or QMD failure stops the run; acceptance is always the last step.
 
 `/ob-ingest` does not automatically run graph sync, lint, contradiction correction, or update `HELP.md` — those are separate, deliberate steps. Run `/ob-wiki-contradictions` to find and fix conflicts, and `/wiki-graph-sync` to bring graph view colors in sync, whenever needed.
 
@@ -206,7 +206,7 @@ Run `/wiki-graph-sync` manually whenever wiki structure changes (new domain, mov
 
 | Name | Type | What it does |
 |---|---|---|
-| `ob-ingest` | Skill | The gated entry point for new sources — sorts the inbox, detects hash-based source changes, prepares a bounded ingest packet, invokes `ob-wiki-update`, validates the result, refreshes QMD, and accepts the source-state delta |
+| `ob-ingest` | Skill | The gated entry point for new sources — sorts the inbox, detects hash-based source changes, prepares a bounded ingest packet, invokes `ob-wiki-update`, validates the result, refreshes dependency metadata and QMD, then accepts the source-state delta |
 | `ob-wiki-update` | Skill | Evidence-reviews a bounded ingestion packet and applies only the approved `Level Knowledge/` page changes supported by its sources — run via `/ob-ingest`, or directly after `prepare_ingest_packet.py` |
 | `ob-slack-activity` | Skill | Pulls today's Slack activity and appends it to `Data/Work/Slack Activity/YYYY-MM.md` |
 | `ob-zoom` | Command | Finds today's Zoom meetings with AI summaries and exports them to `Data/Meetings/` |

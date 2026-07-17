@@ -3,8 +3,8 @@ name: ob-ingest
 description: >
   Runs the complete safe ingestion cycle for this vault: sort Data/Inbox,
   detect hash-based source changes, prepare a bounded QMD/graph packet, update
-  approved Level Knowledge pages, validate the result, refresh retrieval, and
-  accept source state. Use when the user asks to ingest, process, or run the
+  approved Level Knowledge pages, validate the result, refresh dependency
+  metadata and retrieval, and accept source state. Use when the user asks to ingest, process, or run the
   full cycle for new vault sources.
 ---
 
@@ -49,20 +49,27 @@ Keep the resulting JSON and Markdown reports as the audit record.
    sources and candidates, then writes supported `Level Knowledge/` page
    changes. If review leaves an unresolved blocker, stop without acceptance.
 
-5. Validate the accepted wiki changes before source-state acceptance:
+5. Validate the approved wiki changes before derived-state refresh:
    - inspect each changed page for valid frontmatter, protected `## Notes`,
      accurate `## References`, consistent confidence metadata/footnote, and
      credential redaction;
-   - run `validate_metadata.py .kb-indexer/metadata/state/entity-registry.json
-     .kb-indexer/metadata/state/dependency-graph.json --check-files`;
    - update `Level Knowledge/index.md` and `Level Knowledge/log.md` only
      when the approved page changes require it.
    Stop on any validation failure; leave the delta unaccepted.
 
-6. Refresh retrieval for the approved wiki changes:
+6. If one or more wiki pages changed, were created, moved, or removed, refresh
+   the dependency graph with `refresh_dependency_graph.py`.
+   - The script selects incremental refresh for edits and a safe full rebuild
+     for page membership or registry changes.
+   - Then run `validate_metadata.py .kb-indexer/metadata/state/entity-registry.json
+     .kb-indexer/metadata/state/dependency-graph.json --check-files`.
+   - Stop on either failure. Do not refresh QMD or accept the delta.
+   - If the wiki review made no page changes, mark graph refresh `not needed`.
+
+7. Refresh retrieval for approved wiki changes:
    `refresh_qmd_index.py --level-knowledge-only`. Stop on failure.
 
-7. Accept the exact delta with `scan_source_state.py --accept <delta.json>`.
+8. Accept the exact delta with `scan_source_state.py --accept <delta.json>`.
    Acceptance is the final mutation. Do not accept a stale delta; rescan and
    restart if its base state no longer matches.
 
@@ -77,6 +84,7 @@ Source delta: new / changed / moved / deleted / touched
 Packet: path; QMD status
 Wiki: pages changed/created; rejected or queued candidates
 Validation: passed | failed
+Dependency graph refresh: incremental | full | passed | failed | not needed
 QMD post-write refresh: passed | failed | not needed
 Source state: accepted | unchanged
 Follow-up: ...
