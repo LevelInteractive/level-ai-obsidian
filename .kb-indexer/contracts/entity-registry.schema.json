@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nicks-nook.local/schemas/entity-registry.schema.json",
+  "title": "vault canonical entity registry",
+  "type": "object",
+  "required": ["version", "entities"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {"const": 1},
+    "generated_at": {"type": "string", "format": "date"},
+    "entities": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/entity"}
+    }
+  },
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "required": ["id", "kind", "canonical_name", "wiki_pages", "aliases", "evidence", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^(client|person|tool|process|metric|decision|organization|project):[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "kind": {"enum": ["client", "person", "tool", "process", "metric", "decision", "organization", "project"]},
+        "canonical_name": {"type": "string", "minLength": 1},
+        "wiki_pages": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^Level Knowledge/.+\\.md$"}},
+        "aliases": {"type": "array", "items": {"$ref": "#/$defs/alias"}},
+        "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}},
+        "status": {"enum": ["active", "deprecated", "merged", "ambiguous"]}
+      }
+    },
+    "alias": {
+      "type": "object",
+      "required": ["name", "normalized", "state", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "normalized": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "state": {"enum": ["confirmed", "ambiguous", "rejected"]},
+        "evidence": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence"}}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["path", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "pattern": "^(Data|Level Knowledge)/.+"},
+        "kind": {"enum": ["source", "wiki_page"]},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}

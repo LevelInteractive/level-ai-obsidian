@@ -54,6 +54,23 @@ If a concept appears in fewer than 3 sources, skip tagging for it — do not inv
 
 ---
 
+### Dynamic taxonomy proposals
+
+Folders describe durable subject scope; tags remain cross-cutting labels. New subjects are proposed from independent raw-source evidence and are never created from a single semantic hit.
+
+- **Two independent source hashes**: eligible to propose a new page in the best-fitting existing domain.
+- **Three related proposed pages** with the same broader subject: eligible to propose a new top-level folder.
+- **Personal technical learning** belongs in `interests/`; work-applied software and workflows belong in `tools/`; work-applied models and methods belong in `analytics/`.
+- Proposal records live in `.kb-indexer/metadata/`; actual page or folder creation happens only during an evidence-reviewed wiki update, which also registers it in `index.md`, `log.md`, and graph configuration.
+
+Before either proposal is eligible, run an **independence check** against the current wiki:
+
+1. Search existing page titles, summaries, and relevant body sections with lexical and semantic retrieval.
+2. If an existing page already covers the subject at the proposed scope, update or extend that page instead.
+3. A new page needs a distinct purpose, audience, lifecycle, or set of decisions that cannot be represented as a section of the existing page.
+4. A new folder additionally needs three genuinely separate child-page scopes; three sources about one broad subject are not enough.
+5. When the result is uncertain, record a review cue rather than creating a page or folder.
+
 ## Graph color groups
 
 `wiki-graph-sync` builds `.obsidian/graph.json` from the canonical color table below. Three-tier system applied in order — Obsidian uses the **last matching group**, so later tiers override earlier ones:
@@ -96,13 +113,16 @@ Assign in order when a new top-level domain folder is added with no canonical en
 
 (Cycle back to the start if exhausted. Skip any color already in use in the canonical table.)
 
-### Theme tag color discovery
+### Theme tag color audit
 
-`wiki-graph-sync` also discovers theme tags in the controlled vocabulary that have no color group yet (i.e., no `tag:#<name>` entry in the canonical table above). For any such tag used on 3+ wiki pages, it assigns the next unused color from the new domain palette and inserts a new row immediately before the `at-risk` row.
+Routine `wiki-graph-sync` never creates tag colors or changes this table.
+Run `sync_wiki_graph.py --audit-tags` explicitly to report controlled-vocabulary
+tags used on 3+ wiki pages that lack a color group. Review the report, then add
+an approved row manually before a later sync applies it:
 
-Format for auto-added rows:
 ```
 | `#tag-name` | `tag:#tag-name` | `#hexcolor` | Theme — N pages |
 ```
 
-To change an auto-assigned color, update the hex value in the row above — `wiki-graph-sync` will apply it on the next sync.
+Theme groups belong before the status override rows so status colors continue
+to take precedence in Obsidian.

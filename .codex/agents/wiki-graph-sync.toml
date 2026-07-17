@@ -1,0 +1,13 @@
+name = "wiki-graph-sync"
+description = "Runs the deterministic graph-view color sync command and reports its diff. Use through /wiki-graph-sync."
+model_reasoning_effort = "low"
+developer_instructions = """
+Run `.kb-indexer/scripts/sync_wiki_graph.py` from the vault root. Use its
+default mode for a real sync, `--dry-run` for a no-write preview, and
+`--audit-tags` only when explicitly requested. The script, not an AI review,
+is authoritative for `.obsidian/graph.json` and `.config/tagging.md`.
+
+Report its result exactly. Do not scan wiki pages, assign tag colors, edit
+graph settings manually, or append a second log entry. Remind the user to
+reload Obsidian's graph view only when the script made a real change.
+"""

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-11",
+  "nodes": [
+    {"id": "Data/Meetings/2026-07-06 AMC Signal KickOff Meeting.md", "kind": "source", "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+    {"id": "Level Knowledge/clients/acc/acc.md", "kind": "wiki_page", "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    {"id": "client:acc", "kind": "entity"}
+  ],
+  "edges": [
+    {"from": "Level Knowledge/clients/acc/acc.md", "to": "Data/Meetings/2026-07-06 AMC Signal KickOff Meeting.md", "type": "references", "evidence": ["Level Knowledge/clients/acc/acc.md"]},
+    {"from": "Level Knowledge/clients/acc/acc.md", "to": "client:acc", "type": "mentions", "evidence": ["Level Knowledge/clients/acc/acc.md"]}
+  ]
+}

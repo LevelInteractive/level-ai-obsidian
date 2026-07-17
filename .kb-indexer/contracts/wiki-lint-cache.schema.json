@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["version", "pages", "coverage"],
+  "properties": {
+    "version": {"const": 2},
+    "pages": {"type": "object"},
+    "coverage": {
+      "type": "object",
+      "required": ["reviewed", "total"],
+      "properties": {"reviewed": {"type": "integer"}, "total": {"type": "integer"}}
+    }
+  }
+}
