@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["version", "run_id", "mode", "pages_total", "pages_to_read", "mechanical_findings"],
+  "properties": {
+    "version": {"const": 1},
+    "run_id": {"type": "string"},
+    "mode": {"enum": ["routine", "backfill", "full", "verify-fixes"]},
+    "pages_total": {"type": "integer", "minimum": 0},
+    "pages_to_read": {"type": "array"},
+    "evidence_to_read": {"type": "array"},
+    "candidate_pairs": {"type": "array"},
+    "mechanical_findings": {"type": "array"}
+  }
+}

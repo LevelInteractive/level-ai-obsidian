@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-11",
+  "entities": [
+    {
+      "id": "client:acc",
+      "kind": "client",
+      "canonical_name": "ACC (American Career College)",
+      "wiki_pages": ["Level Knowledge/clients/acc/acc.md"],
+      "aliases": [
+        {"name": "ACC", "normalized": "acc", "state": "confirmed", "evidence": [{"path": "Level Knowledge/clients/acc/acc.md", "kind": "wiki_page"}]},
+        {"name": "AMC", "normalized": "amc", "state": "ambiguous", "evidence": [{"path": "Level Knowledge/clients/acc/acc.md", "kind": "wiki_page", "note": "Existing page identifies AMC as a likely naming inconsistency but says it is not explicitly confirmed."}]}
+      ],
+      "evidence": [{"path": "Level Knowledge/clients/acc/acc.md", "kind": "wiki_page"}],
+      "status": "active"
+    },
+    {
+      "id": "client:shio",
+      "kind": "client",
+      "canonical_name": "Shio",
+      "wiki_pages": ["Level Knowledge/clients/shio/shio.md"],
+      "aliases": [
+        {"name": "TPA", "normalized": "tpa", "state": "confirmed", "evidence": [{"path": "Level Knowledge/clients/shio/shio.md", "kind": "wiki_page", "note": "Existing page records the former name."}]}
+      ],
+      "evidence": [{"path": "Level Knowledge/clients/shio/shio.md", "kind": "wiki_page"}],
+      "status": "active"
+    },
+    {
+      "id": "client:aim",
+      "kind": "client",
+      "canonical_name": "AIM",
+      "wiki_pages": ["Level Knowledge/clients/aim/aim.md"],
+      "aliases": [
+        {"name": "Cotillo Education", "normalized": "cotillo-education", "state": "confirmed", "evidence": [{"path": "Level Knowledge/clients/aim/aim.md", "kind": "wiki_page", "note": "Existing page records the naming variant."}]}
+      ],
+      "evidence": [{"path": "Level Knowledge/clients/aim/aim.md", "kind": "wiki_page"}],
+      "status": "active"
+    }
+  ]
+}
